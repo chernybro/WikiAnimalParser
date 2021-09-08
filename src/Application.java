@@ -33,7 +33,7 @@ public class Application {
 
         FileWriter jsonFile;
         try {
-            jsonFile = new FileWriter("data/animals.json");
+            jsonFile = new FileWriter("data/animals1.json");
             jsonFile.write(json.toJson(animals));
             jsonFile.close();
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class Application {
     private static Document createHTML(String url) {
         Document html = null;
         try {
-            html = Jsoup.connect(url).get();
+            html = Jsoup.connect(url).maxBodySize(80000).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,8 +60,13 @@ public class Application {
 
         parseAllRefsFromOnePage("https://ru.wikipedia.org" + page.attr("href"));
         html = createHTML("https://ru.wikipedia.org" + page.attr("href"));
-        //System.out.println(i);
-        if (i == 186) return;
+        System.out.println(i);
+        if (i == 186) {System.out.println("https://ru.wikipedia.org" + page.attr("href")); return;}
+        if (i == 30) System.out.println("https://ru.wikipedia.org" + page.attr("href"));
+        if (i == 60) System.out.println("https://ru.wikipedia.org" + page.attr("href"));
+        if (i == 90) System.out.println("https://ru.wikipedia.org" + page.attr("href"));
+        if (i == 120) System.out.println("https://ru.wikipedia.org" + page.attr("href"));
+        if (i == 150) System.out.println("https://ru.wikipedia.org" + page.attr("href"));
         parseLinksWithAnimalPages();
 
     }
@@ -76,7 +81,7 @@ public class Application {
         for (var item: els) {
             //System.out.println("https://ru.wikipedia.org" + item.attr("href"));
             parseSinglePage("https://ru.wikipedia.org" + item.attr("href"));
-            //System.out.println(j++);
+            System.out.println(j++);
         }
     }
 
@@ -86,11 +91,17 @@ public class Application {
         Elements els = animalPage.select("div[class=\"ts-Taxonomy-rang-row\"]");
         Animal animal;
         ArrayList<String> s = new ArrayList<>();
+        for (int i = 0;i < 8; i++) s.add("undefined");
         for (var item: els) {
-            if (!item.text().contains("Домен")) // Домен указан не у всех животных, чтобы не морочиться сделал так
-                s.add(item.text());
+                if (item.text().contains("Царство")) s.set(0, item.text());
+                if (item.text().contains("Тип")) s.set(1, item.text());
+                if (item.text().contains("Класс")) s.set(2, item.text());
+                if (item.text().contains("Отряд")) s.set(3, item.text());
+                if (item.text().contains("Семейство")) s.set(4, item.text());
+                if (item.text().contains("Род")) s.set(5, item.text());
+                if (item.text().contains("Вид")) s.set(6, item.text());
         }
-        if (s.size() == 7) {
+        if (s.get(6).contains("Вид")) {
             animal = new Animal(name, s.get(0), s.get(1), s.get(2), s.get(3), s.get(4), s.get(5), s.get(6), url);
             animalsList.add(animal);
             //System.out.println(animal);

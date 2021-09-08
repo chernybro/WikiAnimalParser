@@ -11,13 +11,13 @@ public class Animal {
 
     public Animal(String name, String kingdom, String phylum, String animalClass, String order, String family, String genus, String species, String link) {
         this.name = name;
-        this.kingdom = kingdom.substring(9);
-        this.phylum = phylum.substring(5);
-        this.animalClass = animalClass.substring(7);
-        this.order = order.substring(7);
-        this.family = family.substring(11);
-        this.genus = genus.substring(5);
-        this.species = species.substring(5);
+        if (kingdom.equals("undefined")) this.kingdom = kingdom; else this.kingdom = kingdom.substring(9);
+        if (phylum.equals("undefined")) this.phylum = phylum; else this.phylum = phylum.substring(5);
+        if (animalClass.equals("undefined")) this.animalClass = animalClass; else this.animalClass = animalClass.substring(7);
+        if (order.equals("undefined")) this.order = order; else this.order = order.substring(7);
+        if (family.equals("undefined")) this.family = family; else this.family = family.substring(11);
+        if (genus.equals("undefined")) this.genus = genus; else this.genus = genus.substring(5);
+        if (species.equals("undefined")) this.species = species; else this.species = species.substring(5);
         this.link = link;
     }
 
